@@ -1,15 +1,16 @@
 package org.firezenk.dslplayground
 
+import android.graphics.Color
 import android.os.Bundle
 import android.support.design.widget.BottomNavigationView
+import android.support.design.widget.Snackbar
 import android.support.v7.app.AppCompatActivity
+import android.support.v7.widget.DividerItemDecoration
+import android.support.v7.widget.RecyclerView
+import android.support.v7.widget.helper.ItemTouchHelper
 import android.widget.Toast
 import kotlinx.android.synthetic.main.activity_main.*
-import android.support.v7.widget.helper.ItemTouchHelper
-import android.support.design.widget.Snackbar
-import android.graphics.Color
-import android.support.v7.widget.RecyclerView
-import android.support.v7.widget.DividerItemDecoration
+import org.firezenk.dslplayground.util.dsl
 
 class MainActivity : AppCompatActivity(), RecyclerItemTouchHelper.RecyclerItemTouchHelperListener {
 
@@ -38,7 +39,27 @@ class MainActivity : AppCompatActivity(), RecyclerItemTouchHelper.RecyclerItemTo
 
         setupAdapter()
 
-        navigation.setOnNavigationItemSelectedListener(onNavigationItemSelectedListener)
+        navigation.dsl {
+            menu = R.menu.navigation
+            default = R.id.navigation_home
+
+            item {
+                id = R.id.navigation_home
+                action = { showToast(R.string.title_home) }
+            }
+
+            item {
+                id = R.id.navigation_dashboard
+                action = { showToast(R.string.title_dashboard) }
+            }
+
+            item {
+                id = R.id.navigation_notifications
+                action = { showToast(R.string.title_notifications) }
+            }
+        }
+
+//        navigation.setOnNavigationItemSelectedListener(onNavigationItemSelectedListener)
     }
 
     private val onNavigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener { item ->
